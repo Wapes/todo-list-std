@@ -34,7 +34,7 @@ class App extends Component {
         let list = this.state.list;
         let newTodo = this.state.newTodo;
 
-        if(newTodo) {
+        if(newTodo && newTodo.trim()) {
             list.push({
                 id: new Date().getTime().toString(),
                 text: this.state.newTodo,
@@ -122,7 +122,7 @@ class App extends Component {
 
         let addBtn = ("");
 
-        if (this.state.newTodo) {
+        if (this.state.newTodo && this.state.newTodo.trim()) {
             addBtn = (<InputGroupAddon addonType="append">
                 <Button onClick={this.addNew}>Add</Button>
             </InputGroupAddon>);
