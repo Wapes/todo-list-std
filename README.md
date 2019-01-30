@@ -1,3 +1,7 @@
+## Description
+
+To Do List with React, reactstrap and Font Awesome Free.
+
 ## Installation
 
 In the project directory, you can run:
