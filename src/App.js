@@ -32,17 +32,20 @@ class App extends Component {
 
     addNew = () => {
         let list = this.state.list;
+        let newTodo = this.state.newTodo;
 
-        list.push({
-            id: new Date().getTime().toString(),
-            text: this.state.newTodo,
-            done: false
-        });
+        if(newTodo) {
+            list.push({
+                id: new Date().getTime().toString(),
+                text: this.state.newTodo,
+                done: false
+            });
 
-        this.setState({
-            list: list,
-            newTodo: ""
-        })
+            this.setState({
+                list: list,
+                newTodo: ""
+            })
+        }
     }
 
     deleteTodo = (id) => {
@@ -65,9 +68,17 @@ class App extends Component {
         })
     }
 
-    getByProp = (prop) => {
+    getCompleted = (prop) => {
         let list = this.state.list;
         return list.filter(x => x[prop] === true);
+    }
+
+    clearCompletedTasks = () => {
+        let list = this.state.list;
+        let result = list.filter(x => x.done === false);
+        this.setState({
+            list: result
+        })
     }
 
     render() {
@@ -99,11 +110,14 @@ class App extends Component {
             </ListGroupItem>)
         });
 
-        const doneItems = this.getByProp("done");
+        const doneItems = this.getCompleted("done");
 
         let doneItemsText = ("");
         if (doneItems.length > 0) {
-            doneItemsText = doneItems.length + " task/s completed";
+            doneItemsText = (<span>
+                {doneItems.length} task/s completed
+                <a onClick={this.clearCompletedTasks} className="float-right" href="javascript:;">Clear completed</a>
+            </span>);
         }
 
         let addBtn = ("");
