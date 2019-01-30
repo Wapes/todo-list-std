@@ -1,0 +1,46 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.todo {
+  width:500px;
+  margin: 0 auto;
+}
+
+.todo h1 {
+  color:#fff;
+}
+
+.todo-list {
+  text-align:left;
+}
+.actions {
+  text-align:right;
+  width: 100px;
+}
+.actions a {
+  margin-left: 15px;
+}
+
+.item {
+  font-size: 18px;
+  width: 100%;
+}
+
+.item.done .text {
+  text-decoration: line-through;
+}
+
+.subheader-text, .footer-text {
+  font-size: 14px;
+  color:white;
+  margin:10px;
+  text-align:left;
+}
