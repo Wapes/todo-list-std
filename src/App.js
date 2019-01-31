@@ -4,7 +4,7 @@ import './App.css';
 import {InputGroup, InputGroupText, InputGroupAddon, Input, Button, ListGroup, ListGroupItem} from 'reactstrap';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faUndo, faCheck, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
+import {faUndo, faCheck, faTrashAlt, faPlus} from '@fortawesome/free-solid-svg-icons'
 
 
 class App extends Component {
@@ -81,6 +81,15 @@ class App extends Component {
         })
     }
 
+    clearAll = () => {
+        if(window.confirm("Сигурни ли сте, че искате да изтриете всички задачи?")) {
+            this.setState({
+                list: [],
+                newTodo: ""
+            })
+        }
+    }
+
     render() {
         const listItems = this.state.list.map((item, index) => {
             let classNames = ["item"];
@@ -113,10 +122,15 @@ class App extends Component {
         const doneItems = this.getCompleted("done");
 
         let doneItemsText = ("");
+        let doneItemsLengthText = "приключени задачи";
+        if(doneItems.length === 1) {
+            doneItemsLengthText = "приключена задача";
+        }
+
         if (doneItems.length > 0) {
             doneItemsText = (<span>
-                {doneItems.length} task/s completed
-                <a onClick={this.clearCompletedTasks} className="float-right" href="javascript:;">Clear completed</a>
+                {doneItems.length} {doneItemsLengthText}
+                <a onClick={this.clearCompletedTasks} className="float-right" href="javascript:;">Изчисти приключените</a>
             </span>);
         }
 
@@ -124,14 +138,21 @@ class App extends Component {
 
         if (this.state.newTodo && this.state.newTodo.trim()) {
             addBtn = (<InputGroupAddon addonType="append">
-                <Button onClick={this.addNew}>Add</Button>
+                <Button onClick={this.addNew}><FontAwesomeIcon
+                    icon={faPlus}/></Button>
             </InputGroupAddon>);
         }
 
-        let subheaderText = "Your list is empty";
-
+        let subheaderText = "Списъкът ви е празен";
+        let itemsLengthText = "задачи";
+        if(this.state.list.length === 1) {
+            itemsLengthText = "задача";
+        }
         if(this.state.list.length > 0) {
-            subheaderText = "You have " + this.state.list.length + " task/s in your list"
+            subheaderText = (<span>
+                Вие имате {this.state.list.length} {itemsLengthText} в списъка си
+                <a onClick={this.clearAll} className="float-right" href="javascript:;">Изчисти всички</a>
+            </span>)
         }
 
         return (
@@ -141,8 +162,8 @@ class App extends Component {
                     <div className="todo-list">
                         <ListGroup>
                             <ListGroupItem key={0}>
-                                <InputGroup>
-                                    <Input placeholder="What to do?" value={this.state.newTodo}
+                                <InputGroup size="lg">
+                                    <Input placeholder="Какви задачи имате?" value={this.state.newTodo}
                                            onKeyPress={this.handleNewTodoInputKeyPress}
                                            onChange={this.handleNewTodoInputChange}/>
                                     {addBtn}
